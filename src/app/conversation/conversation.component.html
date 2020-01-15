@@ -1,3 +1,66 @@
-<p>
-  conversation works!
-</p>
+<div class="conversationContainer" [ngClass]="{'shaker': shake}" >
+    <div class="container pato45">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="avatarFrameOnline" *ngIf="friend">
+              <img [src]="croppedImage || friend.avatar || 'assets/img/generic_avatar.png'" class="avatarImage img-fluid" alt="">
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div *ngIf="friend">
+            <h3 class="disInli">{{friend.nick}}</h3>
+            <label>({{friend.status}})</label>
+            <br />
+            <p>{{friend.subnick}}</p> 
+            <hr />
+          </div>
+          <div class="textArea" tabindex="0" (keyup.enter)="sendImage()" #scrollMe>
+            <div class="messageGroup" *ngFor="let m of conversation">
+              <div *ngIf="m.type != 'zumbido'">  
+                  <b>{{getUserNickById(m.sender)}}</b> dice: <br />
+                  <span>{{m.text}}</span>
+              </div>
+              <div *ngIf="m.type == 'zumbido'">  
+                  <b>{{getUserNickById(m.sender)}}</b><span> Te envio un zumbido</span>
+              </div>
+              <div *ngIf="m.type == 'image'">  
+                  <b>{{getUserNickById(m.sender)}}</b> dice: <br />
+                  <img src="{{m.url}}" alt="image">
+              </div>
+            </div>
+            <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="1 / 1"
+            [resizeToWidth]="128"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded()"
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-3">
+            <div class="avatarFrameOnline" *ngIf="user">
+                <img class="avatarImage img-fluid" src="{{user.avatar}}" alt="avatar">
+            </div>
+        </div>
+        <div class="col-md-9">
+          <textarea [(ngModel)]="textMessage" (keyup.enter)="sendMessage()" cols="10" rows="5" class="form-control"></textarea>
+          <div *ngIf="user">
+            <div class="item" (click)="sendZumbido()">
+              <img src="assets/img/zumbido.png" class="icon" alt="">
+            </div>
+            <label class="custom-file-upload">
+              <input type="file" (change)="fileChangeEvent($event)">  
+              Upload file
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

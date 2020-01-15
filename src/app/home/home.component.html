@@ -1,3 +1,83 @@
-<p>
-  home works!
-</p>
+<div id="homeContainer">
+  <div class="whiteBorderGlassBox">
+    <div class="homeHeadContainer">
+      <div class="row">
+        <div class="col-md-auto">
+          <div class="avatarFrameOnline">
+            <img src="assets/img/generic_avatar.png" id="homeAvatarPicture" alt="avatar">
+          </div>
+        </div>
+        <div class="col" *ngIf="user">
+          <b>{{user.nick}}</b>
+          <div>
+            <span>{{user.status}}</span>
+            <br />
+            <span>{{user.subnick}}</span> <br />
+            <a (click)="logOut()">logOut</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="whiteContainerPadded marto15">
+
+    <div class="row">
+      <div class="col">
+          <input type="text" class="form-control" placeholder="Buscar Amigo" [(ngModel)]="query">
+      </div>
+      <div class="col-md-auto">
+        <img (click)="open(content)" src="assets/img/logo_live_add.png" class="icon" alt="">
+      </div>
+    </div>
+      
+      <hr />
+      <b *ngIf="user && user.friends">Friends ({{user.friends.length}} / {{user.friends.length}})</b>
+      <div *ngIf="user && user.friends">
+          <ng-container class="marbo5">
+            <app-contact class="col-md-12" *ngFor= "let user of user.friends" [uid]="user"></app-contact>
+
+          </ng-container>
+        <!-- <ng-container *ngFor= "let user of user.friends | search:query; let i = index" class="marbo5">
+          <ul>
+            <li>
+            <div>{{user}}</div>
+             <a routerLink="/conversation/{{user.uid}}">
+              <li>
+                <img id="user-status" src="assets/img/logo_live_{{user.status}}.png" alt="${{user.status}}">
+                <b>{{user.nick}}</b> - ({{user.subnick || 'No subnick'}})
+                <span>{{user.email}}</span>
+              </li>
+            </a> 
+            </li>
+          </ul>    
+        </ng-container> -->
+    </div>
+  </div>
+
+  
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add friends</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+     <div class="">
+       <b>Add friends Email</b>
+       <input type="email" class="form-control" placeholder="email" [(ngModel)]="friendEmail" (keyup.enter)="sendRequest()">
+     </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="sendRequest()">Save</button>
+    </div>
+  </ng-template>
+  
+  <button class="btn btn-lg btn-outline-primary">Launch demo modal</button>
+  
+  <hr>
+  
+  <pre>{{closeResult}}</pre>

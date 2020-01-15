@@ -1,0 +1,35 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      New Request
+      <a class="closeButton" (click)="close()" href="">x</a>
+    </div>
+    <div class="modal-body" style="height: auto">
+      <div class="row" *ngIf="friend">
+        <div class="col-md-3">
+          <img [src]="friend.avatar || 'assets/img/generic_avatar.png'" class="img-fluid" alt="avatar">
+        </div>
+        <div class="col-md-9">
+          <b>{{friend.nick}}</b>
+          <small>({{friend.email}})</small>
+          <small> Has sended you this request</small>
+        </div>
+        <hr />
+        <div class="col-md-12">
+        <h4>Do you want to add this person?</h4>
+        <br />
+        <input type="radio" name="addToMsn" [(ngModel)]="shouldAdd" value="yes" id="add-yes"><label for="add-yes">I do.</label>
+        <br />
+        <input type="radio" name="addToMsn" [(ngModel)]="shouldAdd" value="no" id="add-no"><label for="add-no">I dont.</label>
+        <br />
+        <input type="radio" name="addToMsn" [(ngModel)]="shouldAdd" value="later" id="add-later"><label for="add-later">Later.</label>
+        <br />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a class="btn btn-primary" (click)="accept()">Ok</a>
+      <a class="btn btn-default" (click)="close()">Close</a>
+    </div>
+  </div>
+</div>
